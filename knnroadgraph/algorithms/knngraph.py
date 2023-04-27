@@ -29,7 +29,9 @@ class SkKnnGraph(BaseAlgorithm):
                 (graph.graph.number_of_nodes(), graph.graph.number_of_nodes()), -1
             )
             for i in self.train_node_ix:
-                for j, dis in nx.shortest_path_length(graph.graph, target=i).items():
+                for j, dis in nx.shortest_path_length(
+                    graph.graph, target=i, weight="weight"
+                ).items():
                     dist[i][j] = dis
                     dist[j][i] = dis
             dist = csgraph_from_dense(dist, null_value=-1)

@@ -69,14 +69,14 @@ class GWR(BaseAlgorithm):
             if len(mask) <= len(self.train_mask):
                 model, scale, residuals = self._fresh_gwr()
                 pred_results = model.predict(pred_c, pred_X)
-                return np.array([p[0] for p in pred_results.predictions])
+                return pred_results.predy
             logging.warning(
                 "Requested predictions are longer than train, looping manually"
             )
             for co, x in zip(pred_c, pred_X):
                 model, scale, residuals = self._fresh_gwr()
                 pred_results = model.predict(co.reshape((1, -1)), x.reshape((1, -1)))
-                all_preds.append(pred_results.predictions[0][0])
+                all_preds.append(pred_results.predy[0])
             return np.array(all_preds)
         except Exception:
             logging.warning("GWR failed")
